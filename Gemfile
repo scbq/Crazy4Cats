@@ -58,3 +58,13 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "devise", "~> 4.9"
+
+gem "faker", "~> 3.4"
+
+gem "cancancan", "~> 3.6"
+
+gem "figaro", "~> 1.2"
+
+gem "bootstrap", "~> 5.3"
