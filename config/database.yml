@@ -22,16 +22,16 @@ default: &default
 
 development:
   <<: *default
-  database: crazy4_cats_development
+  database: crazy4_cats
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
   # When left blank, PostgreSQL will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: crazy4_cats
+  username: postgres
 
   # The password associated with the PostgreSQL role (username).
-  #password:
+  password: 02125019
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -40,7 +40,7 @@ development:
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
-  #port: 5432
+  port: 5432
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
@@ -57,6 +57,9 @@ development:
 test:
   <<: *default
   database: crazy4_cats_test
+  username: postgres
+  password: 02125019
+  port: 5432
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
