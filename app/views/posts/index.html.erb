@@ -1,16 +1,29 @@
-<p style="color: green"><%= notice %></p>
+<div class="container mt-4">
+  <p class="text-success"><%= notice %></p>
 
-<% content_for :title, "Posts" %>
+  <% content_for :title, "Posts" %>
 
-<h1>Posts</h1>
+  <h1 class="text-center mb-4">Posts de Crazy4Cats</h1>
 
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
-  <% end %>
+  <div class="row" id="posts">
+    <% @posts.each do |post| %>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title"><%= post.title %></h5>
+            <p class="card-text"><%= truncate(post.body, length: 100) %></p>
+            <%= link_to "Leer más", post_path(post), class: "btn btn-primary" %>
+          </div>
+          <div class="card-footer text-muted d-flex justify-content-between">
+            <small><i class="fas fa-user"></i> Publicado por: <%= post.user.email %></small>
+            <small><i class="far fa-calendar-alt"></i> <%= post.created_at.strftime("%d %b, %Y") %></small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="text-center mt-4">
+    <%= link_to "<i class='fas fa-plus'></i> Nuevo post".html_safe, new_post_path, class: "btn btn-success" %>
+  </div>
 </div>
-
-<%= link_to "New post", new_post_path %>

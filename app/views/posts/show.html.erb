@@ -1,23 +1,42 @@
-<h1><%= @post.title %></h1>
-<p><%= @post.body %></p>
-<p>
-  Likes: <%= @post.likes.where(liked: true).count %>
-  Dislikes: <%= @post.likes.where(liked: false).count %>
-</p>
-<% if user_signed_in? %>
-  <%= button_to 'Like', like_post_path(@post), method: :post %>
-  <%= button_to 'Dislike', dislike_post_path(@post), method: :post %>
-<% end %>
-<h2>Comments</h2>
-<%= render @post.comments %>
-<% if user_signed_in? %>
-  <%= form_with(model: [@post, @post.comments.build]) do |form| %>
-    <p>
-      <%= form.label :content %><br>
-      <%= form.text_area :content %>
-    </p>
-    <p>
-      <%= form.submit %>
-    </p>
-  <% end %>
-<% end %>
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="card-title text-center"><%= @post.title %></h1>
+      <p class="card-text"><%= @post.body %></p>
+      <div class="text-muted mb-3 d-flex align-items-center gap-3">
+        <span><i class="fas fa-thumbs-up text-success"></i> <%= @post.likes.where(liked: true).count %></span>
+        <span><i class="fas fa-thumbs-down text-danger"></i> <%= @post.likes.where(liked: false).count %></span>
+      </div>
+
+      <% if user_signed_in? %>
+        <div class="d-flex gap-2 mb-4">
+          <%= button_to '<i class="fas fa-thumbs-up"></i> Like'.html_safe, like_post_path(@post), method: :post, class: "btn btn-outline-success" %>
+          <%= button_to '<i class="fas fa-thumbs-down"></i> Dislike'.html_safe, dislike_post_path(@post), method: :post, class: "btn btn-outline-danger" %>
+        </div>
+      <% end %>
+      
+      <h2 class="mt-4"><i class="fas fa-comments"></i> Comentarios</h2>
+      <div class="list-group mb-3">
+        <%= render @post.comments %>
+      </div>
+      
+      <% if user_signed_in? %>
+        <div class="card p-3 mb-3">
+          <%= form_with(model: [@post, @post.comments.build], local: true) do |form| %>
+            <div class="mb-3">
+              <%= form.label :content, "Deja un comentario", class: "form-label" %>
+              <%= form.text_area :content, class: "form-control", rows: 3 %>
+            </div>
+            <div>
+              <%= button_tag(type: 'submit', class: 'btn btn-primary') do %>
+                <i class="fas fa-paper-plane"></i> Enviar comentario
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted"><i class="fas fa-info-circle"></i> Inicia sesión para dejar un comentario.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
