@@ -13,3 +13,63 @@
  *= require_tree .
  *= require_self
  */
+ .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination .page-item {
+    margin: 0 5px;
+  }
+  
+  .pagination .page-link {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #007bff;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .pagination .page-link:hover {
+    background-color: #f1f1f1;
+    color: #0056b3;
+  }
+  
+  .pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: #ffffff;
+    border-color: #007bff;
+  }
+  
+/* Asegura una altura uniforme para todas las tarjetas */
+.post-card {
+    min-height: 400px; /* Ajusta la altura según tus preferencias */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Limita el texto de la descripción para evitar desbordes */
+  .post-card .card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Número máximo de líneas de texto que se muestran */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+
+  .card {
+    min-height: 400px; /* Ajustar según la altura mínima que deseas para la tarjeta */
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-text {
+    flex-grow: 1;
+  }
+  

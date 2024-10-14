@@ -8,11 +8,13 @@
   <div class="row" id="posts">
     <% @posts.each do |post| %>
       <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card shadow-sm">
-          <div class="card-body">
+        <div class="card shadow-sm h-100 d-flex flex-column">
+          <div class="card-body d-flex flex-column flex-grow-1">
             <h5 class="card-title"><%= post.title %></h5>
-            <p class="card-text"><%= truncate(post.body, length: 100) %></p>
-            <%= link_to "Leer más", post_path(post), class: "btn btn-primary" %>
+            <p class="card-text flex-grow-1"><%= truncate(post.body, length: 100) %></p>
+            <div class="mt-3">
+              <%= link_to "<i class='fas fa-eye'></i> Leer más".html_safe, post_path(post), class: "btn btn-primary btn-sm w-100" %>
+            </div>
           </div>
           <div class="card-footer text-muted d-flex justify-content-between">
             <small><i class="fas fa-user"></i> Publicado por: <%= post.user.email %></small>
@@ -25,5 +27,9 @@
 
   <div class="text-center mt-4">
     <%= link_to "<i class='fas fa-plus'></i> Nuevo post".html_safe, new_post_path, class: "btn btn-success" %>
+  </div>
+
+  <div class="pagination-links mt-4">
+    <%= paginate @posts %>
   </div>
 </div>
