@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  load_and_authorize_resource
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: %i[show edit update destroy like dislike]
+  before_action :authorize_post, only: %i[edit update destroy like dislike]
 
   # GET /posts or /posts.json
   def index
@@ -10,20 +10,25 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show
+    authorize! :read, @post
   end
 
   # GET /posts/new
   def new
     @post = Post.new
+    authorize! :create, @post
   end
 
   # GET /posts/1/edit
   def edit
+    # Authorization handled by `authorize_post`
   end
 
   # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
+    @post.user = current_user
+    authorize! :create, @post
 
     respond_to do |format|
       if @post.save
@@ -38,6 +43,7 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    # Authorization handled by `authorize_post`
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: "Post was successfully updated." }
@@ -51,28 +57,17 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
+    # Authorization handled by `authorize_post`
     @post.destroy!
-
     respond_to do |format|
       format.html { redirect_to posts_path, status: :see_other, notice: "Post was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
-  private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_post
-    @post = Post.find(params[:id])
-  end
-
-  # Only allow a list of trusted parameters through.
-  def post_params
-    params.require(:post).permit(:title, :body, :user_id)
-  end
-
+  # POST /posts/:id/like
   def like
-    @post = Post.find(params[:id])
+    authorize! :like, @post
     @like = @post.likes.find_or_initialize_by(user: current_user)
 
     @like.liked = true
@@ -83,8 +78,9 @@ class PostsController < ApplicationController
     end
   end
 
+  # POST /posts/:id/dislike
   def dislike
-    @post = Post.find(params[:id])
+    authorize! :dislike, @post
     @like = @post.likes.find_or_initialize_by(user: current_user)
 
     @like.liked = false
@@ -95,4 +91,19 @@ class PostsController < ApplicationController
     end
   end
 
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  def authorize_post
+    authorize! action_name.to_sym, @post
+  end
+
+  # Only allow a list of trusted parameters through.
+  def post_params
+    params.require(:post).permit(:title, :body, :user_id)
+  end
 end
