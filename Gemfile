@@ -72,3 +72,6 @@ gem "bootstrap", "~> 5.3"
 gem "sassc-rails", "~> 2.1"
 
 gem "kaminari", "~> 1.2"
+
+gem 'mini_racer', platforms: :ruby
+

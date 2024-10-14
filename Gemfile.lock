@@ -149,6 +149,11 @@ GEM
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
     language_server-protocol (3.17.0.3)
+    libv8-node (18.19.0.0)
+    libv8-node (18.19.0.0-aarch64-linux)
+    libv8-node (18.19.0.0-arm64-darwin)
+    libv8-node (18.19.0.0-x86_64-darwin)
+    libv8-node (18.19.0.0-x86_64-linux)
     logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
@@ -161,6 +166,8 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
+    mini_racer (0.16.0)
+      libv8-node (~> 18.19.0.0)
     minitest (5.25.1)
     msgpack (1.7.3)
     net-imap (0.4.17)
@@ -349,6 +356,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kaminari (~> 1.2)
+  mini_racer
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.2.1)

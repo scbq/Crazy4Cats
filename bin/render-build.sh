@@ -2,12 +2,18 @@
 # exit on error
 set -o errexit
 
-# Instalación de las dependencias del proyecto
+# Instalar dependencias de gemas del proyecto
 bundle install
 
-# Precompilar activos y limpiar anteriores
+# Utilizar Node.js como entorno de ejecución JavaScript para ExecJS
+# exportando NODE_PATH para que lo detecte correctamente
+export NODE_PATH=$(npm root -g)
+
+# Precompilar activos
 bundle exec rails assets:precompile
+
+# Limpiar activos antiguos
 bundle exec rails assets:clean
 
-# Migrar la base de datos, necesario para preparar las tablas
+# Ejecutar migraciones
 bundle exec rails db:migrate

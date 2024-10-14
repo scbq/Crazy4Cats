@@ -11,7 +11,6 @@ services:
     plan: free
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec rails server -b 0.0.0.0 -p $PORT"
-
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -20,4 +19,6 @@ services:
       - key: RAILS_MASTER_KEY
         sync: false
       - key: WEB_CONCURRENCY
-        value: "2" # sensible default
+        value: "2"
+    env: node
+    nodeVersion: "20.x"
