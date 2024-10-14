@@ -1,7 +1,21 @@
-<h1>Bienvenido a Crazy4 Cats</h1>
-<% if user_signed_in? %>
-  <p>Hola, <%= current_user.email %>! Estás conectado.</p>
-  <%= link_to 'Cerrar sesión', destroy_user_session_path, method: :delete %>
-<% else %>
-  <%= link_to 'Iniciar sesión', new_user_session_path %> o <%= link_to 'Registrarse', new_user_registration_path %>
-<% end %>
+<div class="container mt-5 text-center">
+  <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+    <div class="card-body">
+      <h1 class="display-4 mb-4">Bienvenido a <span class="text-primary">Crazy4Cats</span>!</h1>
+      <p class="lead">
+        Comparte y disfruta las aventuras más locas con tus gatos. Conéctate con otros amantes de los gatos, comenta y disfruta de cada publicación.
+      </p>
+      <hr class="my-4">
+
+      <p>Para publicar y ver las aventuras de los gatos, por favor <strong>inicia sesión</strong> o <strong>regístrate</strong>.</p>
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <a href="<%= new_user_session_path %>" class="btn btn-primary btn-lg px-5">
+          Inicia Sesión
+        </a>
+        <a href="<%= new_user_registration_path %>" class="btn btn-outline-secondary btn-lg px-5">
+          Regístrate
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

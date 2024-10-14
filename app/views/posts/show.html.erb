@@ -1,10 +1,23 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @post %>
-
-<div>
-  <%= link_to "Edit this post", edit_post_path(@post) %> |
-  <%= link_to "Back to posts", posts_path %>
-
-  <%= button_to "Destroy this post", @post, method: :delete %>
-</div>
+<h1><%= @post.title %></h1>
+<p><%= @post.body %></p>
+<p>
+  Likes: <%= @post.likes.where(liked: true).count %>
+  Dislikes: <%= @post.likes.where(liked: false).count %>
+</p>
+<% if user_signed_in? %>
+  <%= button_to 'Like', like_post_path(@post), method: :post %>
+  <%= button_to 'Dislike', dislike_post_path(@post), method: :post %>
+<% end %>
+<h2>Comments</h2>
+<%= render @post.comments %>
+<% if user_signed_in? %>
+  <%= form_with(model: [@post, @post.comments.build]) do |form| %>
+    <p>
+      <%= form.label :content %><br>
+      <%= form.text_area :content %>
+    </p>
+    <p>
+      <%= form.submit %>
+    </p>
+  <% end %>
+<% end %>

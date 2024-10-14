@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user! # Asegura que el usuario esté autenticado
+  before_action :authenticate_user!, except: %i[create] # Asegura que el usuario esté autenticado para acciones específicas
   load_and_authorize_resource # CanCanCan
   before_action :set_comment, only: %i[ show edit update destroy ]
 
@@ -23,14 +23,16 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
-    @comment = Comment.new(comment_params)
+    @post = Post.find(params[:post_id]) # Asegúrate de que el comentario pertenezca a un post específico.
+    @comment = @post.comments.build(comment_params)
+    @comment.user = current_user if user_signed_in? # Solo asignar usuario si está autenticado
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: "Comment was successfully created." }
+        format.html { redirect_to @post, notice: "Comment was successfully created." }
         format.json { render :show, status: :created, location: @comment }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to @post, alert: "Unable to add comment." }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -54,7 +56,7 @@ class CommentsController < ApplicationController
     @comment.destroy!
 
     respond_to do |format|
-      format.html { redirect_to comments_path, status: :see_other, notice: "Comment was successfully destroyed." }
+      format.html { redirect_to @comment.post, status: :see_other, notice: "Comment was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -68,6 +70,6 @@ class CommentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def comment_params
-    params.require(:comment).permit(:content, :post_id, :user_id)
+    params.require(:comment).permit(:content)
   end
 end

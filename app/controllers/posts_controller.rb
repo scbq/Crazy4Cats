@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user! # Asegura que el usuario esté autenticado
-  load_and_authorize_resource # CanCanCan
+  before_action :authenticate_user!, except: %i[index show]
+  load_and_authorize_resource
   before_action :set_post, only: %i[ show edit update destroy ]
 
   # GET /posts or /posts.json
@@ -70,4 +70,29 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :body, :user_id)
   end
+
+  def like
+    @post = Post.find(params[:id])
+    @like = @post.likes.find_or_initialize_by(user: current_user)
+
+    @like.liked = true
+    if @like.save
+      redirect_to @post, notice: "You liked this post."
+    else
+      redirect_to @post, alert: "Unable to like this post."
+    end
+  end
+
+  def dislike
+    @post = Post.find(params[:id])
+    @like = @post.likes.find_or_initialize_by(user: current_user)
+
+    @like.liked = false
+    if @like.save
+      redirect_to @post, notice: "You disliked this post."
+    else
+      redirect_to @post, alert: "Unable to dislike this post."
+    end
+  end
+
 end
