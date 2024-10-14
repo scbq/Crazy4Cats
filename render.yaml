@@ -6,12 +6,12 @@ databases:
 
 services:
   - type: web
-    name: mysite
+    name: crazy4cats
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
-    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
-    startCommand: "bundle exec rails server"
+    startCommand: "bundle exec rails server -b 0.0.0.0 -p $PORT"
+
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -20,4 +20,4 @@ services:
       - key: RAILS_MASTER_KEY
         sync: false
       - key: WEB_CONCURRENCY
-        value: 2 # sensible default
+        value: "2" # sensible default

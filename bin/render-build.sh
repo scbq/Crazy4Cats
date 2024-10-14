@@ -2,12 +2,12 @@
 # exit on error
 set -o errexit
 
+# Instalación de las dependencias del proyecto
 bundle install
+
+# Precompilar activos y limpiar anteriores
 bundle exec rails assets:precompile
 bundle exec rails assets:clean
 
-# If you're using a Free instance type, you need to
-# perform database migrations in the build command.
-# Uncomment the following line:
-
+# Migrar la base de datos, necesario para preparar las tablas
 bundle exec rails db:migrate
